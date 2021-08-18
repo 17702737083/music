@@ -1,0 +1,94 @@
+stages:
+  - npm-build-qas
+  - docker-image-build-push-qas
+  - rancher-deploy-qas
+  - npm-build-prd
+  - docker-image-build-push-prd
+
+npm-build-qas:
+  stage: npm-build-qas
+  only:
+    - master
+  image: harbor.wks.wistron.com.cn/k8swkssip/tools/node:latest
+  tags:
+    - wks-runner08
+  artifacts:
+    paths:
+      - ./dist/
+  script:
+    - npm config set registry http://10.66.20.189:4001/repository/npm-group/
+    - npm config set strict-ssl=false
+    - npm config delete proxy
+    - npm config delete https-proxy
+    - yarn config set registry http://10.66.20.189:4001/repository/npm-group/ --global
+    - yarn config set strict-ssl false
+    - yarn config delete proxy
+    - yarn config delete https-proxy
+    - yarn
+    - yarn build:qas
+
+
+docker-image-build-push-qas:
+  stage: docker-image-build-push-qas
+  only:
+    - master
+  image: harbor.wks.wistron.com.cn/base_image/docker:stable
+  tags:
+    - wks-runner08
+  script:
+    - docker build . -t harbor.wks.wistron.com.cn/k8swksoa/qas/web:latest
+    - echo "${HARBOR_PASSWORD}"
+    - echo "${HARBOR_PASSWORD}" | docker login -u "${HARBOR_USER}" --password-stdin "${HARBOR_URL}"
+    - docker push harbor.wks.wistron.com.cn/k8swksoa/qas/web:latest
+
+rancher-deploy-qas:  
+  stage: rancher-deploy-qas
+  image: harbor.wks.wistron.com.cn/base_image/vc-tool:latest
+  tags:
+    - wks-runner08
+  only:
+    - master
+  script:
+    - K8S_KEY="Bearer token-mb25j:6bd46dhqtxlpx6nqtwx6rf65hnv7s526l8k5x4fbxsx9ml9fnptn2b"
+    - K8S_API="https://k8sdev-wks.wistron.com/v3/project/local:p-68srv/workloads/deployment:k8sdevwksoa:web"
+    - CI_JOB_TIMESTAMP=$(date +"%s")
+    - echo "{\"annotations\":{\"cattle.io/timestamp\":$CI_JOB_TIMESTAMP}}" > json.txt
+    - cat json.txt
+    - curl -H "Authorization:${K8S_KEY}" -H "Content-Type:application/json" -d "@json.txt" -X PUT ${K8S_API}
+
+npm-build-prd:
+  stage: npm-build-prd
+  only:
+    - master
+  image: harbor.wks.wistron.com.cn/k8swkssip/tools/node:latest
+  tags:
+    - wks-runner08
+  artifacts:
+    paths:
+      - ./dist/
+  script:
+    - npm config set registry http://10.66.20.189:4001/repository/npm-group/
+    - npm config set strict-ssl=false
+    - npm config delete proxy
+    - npm config delete https-proxy
+    - yarn config set registry http://10.66.20.189:4001/repository/npm-group/ --global
+    - yarn config set strict-ssl false
+    - yarn config delete proxy
+    - yarn config delete https-proxy
+    - yarn
+    - yarn build:prd
+
+
+docker-image-build-push-prd:
+  stage: docker-image-build-push-prd
+  only:
+    - master
+  image: harbor.wks.wistron.com.cn/base_image/docker:stable
+  tags:
+    - wks-runner08
+  script:
+    - docker build . -t harbor.wks.wistron.com.cn/k8swksoa/prd/web:latest
+    - echo "${HARBOR_PASSWORD}" | docker login -u "${HARBOR_USER}" --password-stdin "${HARBOR_URL}"
+    - docker push harbor.wks.wistron.com.cn/k8swksoa/prd/web:latest
+
+

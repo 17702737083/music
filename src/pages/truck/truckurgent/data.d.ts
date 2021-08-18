@@ -1,0 +1,42 @@
+export type TruckUrgentInfo = {
+  id: number;
+  plant: string;
+  urgentDate: date;
+  urgentTime: string;
+  fowder: string;
+  truckNo: string;
+  mobile: string;
+  importNo: string;
+  hwbn: string;
+  vendor: string;
+  mc: string;
+  buyer: string;
+  partNo: string;
+  description: string;
+  buyerConfirm: string;
+  qty: string;
+  po: string;
+  poLine: string;
+  remark: string;
+};
+
+export type TableListParams = {
+  plant?: string;
+  urgentdate?: date;
+  urgenttime?: string;
+  fowder?: string;
+  truckno?: string;
+  mobile?: string;
+  importno?: string;
+  hwbn?: string;
+  vendor?: string;
+  mc?: string;
+  buyer?: string;
+  partno?: string;
+  description?: string;
+  buyerconfirm?: string;
+  qty?: string;
+  po?: string;
+  poline?: string;
+  remark?: string;
+};

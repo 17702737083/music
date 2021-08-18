@@ -1,0 +1,81 @@
+.ant-form-item-label {
+    display: inline-block;
+    flex-grow: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: right;
+    vertical-align: middle;
+    width: 75px;
+    background-color: #fff;
+}
+.ant-input-affix-wrapper{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    min-width: 0;
+    padding: 4px 11px;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    line-height: 1.5715;
+    background-color: #fff;
+    background-image: none;
+    border-radius: 2px;
+    transition: all 0.3s;
+    display: inline-flex;
+}
+.ant-input[disabled] {
+    color: rgb(0 0 0);
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    position: relative;
+    background-color: #fff;
+    //border: 0px solid #d9d9d9;
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+//下拉框disable
+.ant-select-disabled.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    color: rgba(0, 0, 0);
+    background: #fff;//改变背景色
+    cursor: not-allowed;
+    border:none;//去掉边框
+}
+
+.ant-pro-form-group-container{
+    gap: 0px !important;
+}
+.ant-form-item-control-input-content {
+    flex: auto;
+    max-width: 100%;
+    color: red;
+}
+//input框disable
+.ant-input-affix-wrapper-disabled{
+  border:none;//去掉边框
+}
+//text框
+.ant-input[disabled] {
+    //color: rgba(0, 0, 0, 0.25);
+    background-color: #fff;
+    cursor: not-allowed;
+    opacity: 1;
+}
+//上传按钮字体颜色
+.ant-btn-primary {
+    color: #fff !important;    
+}
+.ant-form-item-label {
+    white-space: pre-wrap; // lable 自动换行
+}
+.ant-descriptions-item-container .ant-descriptions-item-label, .ant-descriptions-item-container .ant-descriptions-item-content {
+    color: #1000ff;
+}
+// .ant-pro-table-list-toolbar-title {
+//     font-weight: 600;
+//     // background-color: #d9d9dd;
+//     // text-decoration: underline
+//   box-shadow: 0px -4px 0px #0097A7 inset
+// }
+
+
